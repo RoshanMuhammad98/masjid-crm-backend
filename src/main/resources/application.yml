@@ -1,0 +1,22 @@
+server:
+  port: 8073
+  servlet.context-path: /masjidcrm
+
+spring:
+  profiles.active: dev
+
+---
+# ===============================
+# Logging Properties
+# ===============================
+spring:
+  message: running in the dev - profile
+  profiles: dev
+logging.config: classpath:log4j2-dev.xml
+
+---
+spring:
+  profiles: prod
+logging.config: classpath:log4j2-prod.xml
+
+---
