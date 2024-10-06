@@ -18,4 +18,6 @@ public class MarriageDetailResponse {
     private String details;
 
     private Long memberDetailId;
+
+    private String memberName;
 }

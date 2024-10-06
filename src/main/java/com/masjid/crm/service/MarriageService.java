@@ -34,12 +34,18 @@ public class MarriageService {
     }
 
     private MarriageDetail saveMarriageDetail(MarriageDetailRequest request) {
-        Optional<MarriageDetail> existingMarriageDetailOpt = marriageRepository.findById(request.getId());
+        MarriageDetail marriageDetail = null;
 
-        MarriageDetail marriageDetail = existingMarriageDetailOpt.orElseGet(MarriageDetail::new);
+        if (request.getId() != null) {
+            marriageDetail = marriageRepository.findById(request.getId())
+                    .orElse(new MarriageDetail());
+        } else {
+            marriageDetail = new MarriageDetail();
+        }
+
         Optional<MemberDetail> memberDetail = memberDetailsRepository.findById(request.getMemberDetailId());
 
-        marriageDetail = MarriageDetailFactory.buildMarriageDetail(request, memberDetail.get());
+        marriageDetail = MarriageDetailFactory.buildMarriageDetail(request, memberDetail.get(), marriageDetail);
         return marriageRepository.save(marriageDetail);
     }
 

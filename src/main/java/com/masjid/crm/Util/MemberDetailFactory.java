@@ -1,9 +1,9 @@
 package com.masjid.crm.Util;
 
 import com.masjid.crm.dto.request.MemberDetailRequest;
-import com.masjid.crm.dto.response.MarriageDetailListResponse;
 import com.masjid.crm.dto.response.MemberDetailListResponse;
 import com.masjid.crm.dto.response.MemberDetailResponse;
+import com.masjid.crm.entity.FamilyDetail;
 import com.masjid.crm.entity.MemberDetail;
 import org.springframework.data.domain.Page;
 
@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 public class MemberDetailFactory {
 
-    public static MemberDetail buildMemberDetail(MemberDetailRequest request) {
-        return MemberDetail.builder()
+    public static MemberDetail buildMemberDetail(MemberDetailRequest request, MemberDetail memberDetail, FamilyDetail familyDetail) {
+        memberDetail = MemberDetail.builder()
                 .name(request.getName())
                 .martialStatus(request.getMartialStatus())
                 .gender(request.getGender())
@@ -23,7 +23,9 @@ public class MemberDetailFactory {
                 .phoneNumber(request.getPhoneNumber())
                 .alternativeNumber(request.getAlternativeNumber())
                 .bloodGroup(request.getBloodGroup())
+                .familyDetail(familyDetail)
                 .build();
+        return memberDetail;
     }
 
     public static MemberDetailResponse buildMemberDetailResponse(MemberDetail memberDetail) {
@@ -38,6 +40,8 @@ public class MemberDetailFactory {
         response.setPhoneNumber(memberDetail.getPhoneNumber());
         response.setAlternativeNumber(memberDetail.getAlternativeNumber());
         response.setBloodGroup(memberDetail.getBloodGroup());
+        response.setFamilyId(memberDetail.getFamilyDetail().getId());
+        response.setHouseHoldName(memberDetail.getFamilyDetail().getHouseholdName());
         return response;
     }
 

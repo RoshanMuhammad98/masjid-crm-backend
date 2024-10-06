@@ -7,6 +7,8 @@ import lombok.Data;
 @Builder
 public class FamilyDetailResponse {
 
+    private Long familyId;
+
     private String householdName;
 
     private String phoneNumber;

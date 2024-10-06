@@ -2,7 +2,9 @@ package com.masjid.crm.service;
 
 import com.masjid.crm.Util.FamilyDetailFactory;
 import com.masjid.crm.dto.request.FamilyDetailRequest;
+import com.masjid.crm.dto.request.SavedFamilyDetailRequest;
 import com.masjid.crm.dto.response.FamilyDetailListResponse;
+import com.masjid.crm.entity.DeathDetail;
 import com.masjid.crm.entity.FamilyDetail;
 import com.masjid.crm.repository.FamilyDetailRepository;
 import com.masjid.crm.specification.FamilyDetailSpecification;
@@ -23,16 +25,23 @@ public class FamilyService {
     @Autowired
     private FamilyDetailRepository familyDetailRepository;
 
-    public ResponseEntity<FamilyDetail> saveFamilyDetails(FamilyDetailRequest request) {
+    public ResponseEntity<FamilyDetail> saveFamilyDetails(SavedFamilyDetailRequest request) {
         FamilyDetail saveFamilyDetail = saveFamilyDetail(request);
         return ResponseEntity.ok(saveFamilyDetail);
     }
 
-    private FamilyDetail saveFamilyDetail(FamilyDetailRequest request) {
-        Optional<FamilyDetail> existingFamilyDetailOpt = familyDetailRepository.findById(request.getId());
+    private FamilyDetail saveFamilyDetail(SavedFamilyDetailRequest request) {
 
-        FamilyDetail familyDetail = existingFamilyDetailOpt.orElseGet(FamilyDetail::new);
-        familyDetail = FamilyDetailFactory.buildFamilyDetail(request);
+        FamilyDetail familyDetail = null;
+
+        if (request.getId() != null) {
+            familyDetail = familyDetailRepository.findById(request.getId())
+                    .orElse(new FamilyDetail());
+        } else {
+            familyDetail = new FamilyDetail();
+        }
+
+        familyDetail = FamilyDetailFactory.buildFamilyDetail(request, familyDetail);
         return familyDetailRepository.save(familyDetail);
     }
 

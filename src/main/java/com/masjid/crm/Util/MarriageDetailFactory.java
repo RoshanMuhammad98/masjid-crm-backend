@@ -1,7 +1,6 @@
 package com.masjid.crm.Util;
 
 import com.masjid.crm.dto.request.MarriageDetailRequest;
-import com.masjid.crm.dto.response.FamilyDetailListResponse;
 import com.masjid.crm.dto.response.MarriageDetailListResponse;
 import com.masjid.crm.dto.response.MarriageDetailResponse;
 import com.masjid.crm.entity.MarriageDetail;
@@ -13,14 +12,15 @@ import java.util.stream.Collectors;
 
 public class MarriageDetailFactory {
 
-    public static MarriageDetail buildMarriageDetail(MarriageDetailRequest request, MemberDetail memberDetail) {
+    public static MarriageDetail buildMarriageDetail(MarriageDetailRequest request, MemberDetail memberDetail, MarriageDetail marriageDetail) {
 
-        return MarriageDetail.builder()
+        marriageDetail = MarriageDetail.builder()
                 .dateOfMarriage(request.getDateOfMarriage())
                 .certificateNumber(request.getCertificateNumber())
                 .details(request.getDetails())
                 .memberDetail(memberDetail)
                 .build();
+        return marriageDetail;
     }
 
     public static MarriageDetailListResponse buildMarriageDetailsListResponse(Page<MarriageDetail> marriageDetails, Long count) {
@@ -38,6 +38,7 @@ public class MarriageDetailFactory {
                 .certificateNumber(marriageDetail.getCertificateNumber())
                 .details(marriageDetail.getDetails())
                 .memberDetailId(marriageDetail.getMemberDetail().getId())
+                .memberName(marriageDetail.getMemberDetail().getName())
                 .build();
     }
 

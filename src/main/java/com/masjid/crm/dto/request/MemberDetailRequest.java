@@ -30,4 +30,6 @@ public class MemberDetailRequest {
     private Integer pageNo;
 
     private Integer pageSize;
+
+    private Long familyDetailId;
 }

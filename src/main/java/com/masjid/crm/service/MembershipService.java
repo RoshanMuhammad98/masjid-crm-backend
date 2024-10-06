@@ -4,7 +4,9 @@ import com.masjid.crm.Util.MembershipDetailFactory;
 import com.masjid.crm.dto.request.MembershipDetailRequest;
 import com.masjid.crm.dto.response.FamilyDetailResponse;
 import com.masjid.crm.dto.response.MembershipDetailListResponse;
+import com.masjid.crm.entity.FamilyDetail;
 import com.masjid.crm.entity.MembershipDetail;
+import com.masjid.crm.repository.FamilyDetailRepository;
 import com.masjid.crm.repository.MembershipRepository;
 import com.masjid.crm.specification.MembershipDetailSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +26,28 @@ public class MembershipService {
     @Autowired
     private MembershipRepository membershipRepository;
 
+    @Autowired
+    private FamilyDetailRepository familyDetailRepository;
+
     public ResponseEntity<MembershipDetail> saveMembershipDetails(MembershipDetailRequest request) {
         MembershipDetail saveMembershipDetail = saveMembershipDetail(request);
         return ResponseEntity.ok(saveMembershipDetail);
     }
 
     private MembershipDetail saveMembershipDetail(MembershipDetailRequest request) {
-        Optional<MembershipDetail> existingMembershipDetailOpt = membershipRepository.findById(request.getId());
+        MembershipDetail membershipDetail = null;
+        Optional<FamilyDetail> familyDetail = null;
+        if (request.getFamilyDetailId() != null) {
+            familyDetail = familyDetailRepository.findById(request.getFamilyDetailId());
+        }
+        if (request.getId() != null) {
+            membershipDetail = membershipRepository.findById(request.getId())
+                    .orElse(new MembershipDetail());
+        } else {
+            membershipDetail = new MembershipDetail();
+        }
 
-        MembershipDetail membershipDetail = existingMembershipDetailOpt.orElseGet(MembershipDetail::new);
-        membershipDetail = MembershipDetailFactory.buildMembershipDetail(request);
+        membershipDetail = MembershipDetailFactory.buildMembershipDetail(request, familyDetail.get());
         return membershipRepository.save(membershipDetail);
     }
 

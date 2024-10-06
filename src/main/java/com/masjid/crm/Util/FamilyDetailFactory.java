@@ -1,6 +1,7 @@
 package com.masjid.crm.Util;
 
 import com.masjid.crm.dto.request.FamilyDetailRequest;
+import com.masjid.crm.dto.request.SavedFamilyDetailRequest;
 import com.masjid.crm.dto.response.FamilyDetailListResponse;
 import com.masjid.crm.dto.response.FamilyDetailResponse;
 import com.masjid.crm.entity.FamilyDetail;
@@ -11,14 +12,15 @@ import java.util.stream.Collectors;
 
 public class FamilyDetailFactory {
 
-    public static FamilyDetail buildFamilyDetail(FamilyDetailRequest request) {
-        return FamilyDetail.builder()
+    public static FamilyDetail buildFamilyDetail(SavedFamilyDetailRequest request, FamilyDetail familyDetail) {
+        familyDetail = FamilyDetail.builder()
                 .householdName(request.getHouseholdName())
                 .phoneNumber(request.getPhoneNumber())
                 .address(request.getAddress())
                 .totalMembersCount(request.getTotalMembersCount())
                 .householdIncome(request.getHouseholdIncome())
                 .build();
+        return familyDetail;
     }
 
     public static FamilyDetailListResponse buildFamilyDetailsListResponse(Page<FamilyDetail> familyDetails, Long count) {
@@ -31,6 +33,7 @@ public class FamilyDetailFactory {
     private static FamilyDetailResponse getFamilyDetailListResponse(FamilyDetail familyDetail) {
 
         return FamilyDetailResponse.builder()
+                .familyId(familyDetail.getId())
                 .householdName(familyDetail.getHouseholdName())
                 .address(familyDetail.getAddress())
                 .phoneNumber(familyDetail.getPhoneNumber())

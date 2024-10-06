@@ -51,4 +51,7 @@ public class MemberDetail extends Audit implements Serializable {
     @Column
     private String bloodGroup;
 
+    @OneToOne
+    private FamilyDetail familyDetail;
+
 }

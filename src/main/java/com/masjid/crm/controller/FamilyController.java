@@ -1,6 +1,7 @@
 package com.masjid.crm.controller;
 
 import com.masjid.crm.dto.request.FamilyDetailRequest;
+import com.masjid.crm.dto.request.SavedFamilyDetailRequest;
 import com.masjid.crm.dto.response.FamilyDetailListResponse;
 import com.masjid.crm.dto.response.FamilyDetailResponse;
 import com.masjid.crm.service.FamilyService;
@@ -32,7 +33,7 @@ public class FamilyController {
      * @since 07-07-2024
      */
     @PostMapping("/save")
-    public void saveFamilyDetails(@RequestBody @Valid FamilyDetailRequest request) {
+    public void saveFamilyDetails(@RequestBody @Valid SavedFamilyDetailRequest request) {
         familyService.saveFamilyDetails(request);
     }
 

@@ -26,4 +26,8 @@ public class MemberDetailResponse {
     private String alternativeNumber;
 
     private String bloodGroup;
+
+    private Long familyId;
+
+    private String houseHoldName;
 }
