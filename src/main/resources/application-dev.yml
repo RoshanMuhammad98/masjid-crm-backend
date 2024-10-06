@@ -1,35 +1,18 @@
-spring.jpa:
-  hibernate.ddl-auto: update
-  properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
-
-spring.datasource:
-  url: jdbc:postgresql://3.108.230.106:5432/roles_db
-  driverClassName: org.postgresql.Driver
-  username: doctune
-  password: doctune
-  hikari:
-    maximum-pool-size: 10
-
-mykare-client:
-  associateUrl: http://15.206.0.236:9090/pmm/v1/internal
-# associateUrl: http://localhost:9090/pmm/v1/internal
-  prakticeUrl: http://15.206.0.236:8087/praktice/
-  customerUrl: http://15.206.0.236:8095/mykare-customer/internal
-#  customerUrl: http://localhost:8095/mykare-customer/internal
-  facilityUrl: http://15.206.0.236:8062/mykare-facility/
-#  karebuddyUrl: http://localhost:8069/mykarebuddy
-#  karebuddyUrl: http://15.206.0.236:8069/mykarebuddy
-  karetripUrl: http://15.206.0.236:8075/karetrip
-  #karetripUrl: http://localhost:8075/karetrip
-  notificationUrl: http://localhost:8085/mykare-notification
-  #KaremitraUrl: http://localhost:8071/karemitra/internal
-  KaremitraUrl: http://localhost:8071/karemitra/internal
-jwt:
-  expiration: 43200
-  secret : mykare-admin
-
 spring:
-  servlet:
-    multipart:
-      max-file-size: 35MB
-      max-request-size: 35MB
+  profiles.active: dev
+
+---
+# ===============================
+# Logging Properties
+# ===============================
+spring:
+  message: running in the dev - profile
+  profiles: dev
+logging.config: classpath:log4j2-dev.xml
+
+---
+spring:
+  profiles: prod
+logging.config: classpath:log4j2-prod.xml
+
+---

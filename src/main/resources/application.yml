@@ -1,22 +1,26 @@
 server:
-  port: 8073
-  servlet.context-path: /masjidcrm
+  port: 8313
+  servlet.context-path: /mosque-way
 
 spring:
-  profiles.active: dev
+  datasource:
+    url: jdbc:postgresql://13.234.162.226:5432/mosque_way
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: mosqueway
+    hikari:
+      maximum-pool-size: 10
 
----
-# ===============================
-# Logging Properties
-# ===============================
-spring:
-  message: running in the dev - profile
-  profiles: dev
-logging.config: classpath:log4j2-dev.xml
+  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        format_sql: true
+    hibernate.ddl-auto: update
 
----
-spring:
-  profiles: prod
-logging.config: classpath:log4j2-prod.xml
-
----
+jwt:
+  expiration: 43200
+  secret : masjidcrm

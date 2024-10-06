@@ -1,0 +1,1 @@
+Insert into users(id, password, username, role_id) values(1, '$2a$10$XGT98Mhz2o14zdGacQQBfug6ejL8NuhZK5BgQb9DbGQYY9XNZtNWa', 'superadmin@test.com', 1);
