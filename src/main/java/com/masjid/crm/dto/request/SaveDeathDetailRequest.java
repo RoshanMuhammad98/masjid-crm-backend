@@ -18,4 +18,7 @@ public class SaveDeathDetailRequest {
     private String deathCertificateNumber;
 
     private Long memberDetailId;
+
+    private String notes;
+
 }

@@ -1,6 +1,7 @@
 package com.masjid.crm.entity;
 
 import com.masjid.crm.model.MemberShipType;
+import com.masjid.crm.model.MembershipMemberType;
 import com.masjid.crm.model.PaymentStatus;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,5 +38,15 @@ public class MembershipDetail  extends Audit implements Serializable {
 
     @Column
     private String notes;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private MembershipMemberType membershipMemberType;
+
+    @Column
+    private String otherPersonName;
+
+    @Column
+    private String otherPersonPhoneNumber;
 
 }

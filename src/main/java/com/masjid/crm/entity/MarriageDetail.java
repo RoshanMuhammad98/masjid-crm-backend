@@ -1,5 +1,6 @@
 package com.masjid.crm.entity;
 
+import com.masjid.crm.model.MarriageMemberType;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -30,6 +31,20 @@ public class MarriageDetail extends Audit implements Serializable {
     @Column
     private String details;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+    private MarriageMemberType marriageMemberType;
+
+    @Column
+    private String marriageMemberName;
+
+    @Column
+    private String marriageMemberPhone;
+
     @OneToOne
     private MemberDetail memberDetail;
+
+    @Column
+    private String notes;
+
 }

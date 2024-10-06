@@ -1,5 +1,6 @@
 package com.masjid.crm.dto.response;
 
+import com.masjid.crm.model.MarriageMemberType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,4 +21,15 @@ public class MarriageDetailResponse {
     private Long memberDetailId;
 
     private String memberName;
+
+    private MarriageMemberType marriageMemberType;
+
+    private String marriageMemberName;
+
+    private String marriageMemberPhone;
+
+    private Long familyDetailId;
+
+    private String notes;
+
 }

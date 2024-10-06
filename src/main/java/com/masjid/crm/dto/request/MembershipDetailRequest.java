@@ -1,8 +1,11 @@
 package com.masjid.crm.dto.request;
 
 import com.masjid.crm.model.MemberShipType;
+import com.masjid.crm.model.MembershipMemberType;
 import com.masjid.crm.model.PaymentStatus;
 import lombok.Data;
+
+import javax.persistence.Column;
 
 @Data
 public class MembershipDetailRequest {
@@ -22,4 +25,11 @@ public class MembershipDetailRequest {
     private Integer pageNo;
 
     private Integer pageSize;
+
+    private MembershipMemberType membershipMemberType;
+
+    private String otherPersonName;
+
+    private String otherPersonPhoneNumber;
+
 }

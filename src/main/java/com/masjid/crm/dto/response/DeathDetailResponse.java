@@ -22,4 +22,8 @@ public class DeathDetailResponse {
     private Long memberId;
 
     private String memberName;
+
+    private Long familyDetailId;
+
+    private String notes;
 }

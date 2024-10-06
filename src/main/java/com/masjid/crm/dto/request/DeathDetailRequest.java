@@ -30,5 +30,8 @@ public class DeathDetailRequest {
     private LocalDate fromDate;
 
     private LocalDate toDate;
+
+    private String notes;
+
 }
 

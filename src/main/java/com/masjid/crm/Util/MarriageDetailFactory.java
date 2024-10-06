@@ -5,6 +5,7 @@ import com.masjid.crm.dto.response.MarriageDetailListResponse;
 import com.masjid.crm.dto.response.MarriageDetailResponse;
 import com.masjid.crm.entity.MarriageDetail;
 import com.masjid.crm.entity.MemberDetail;
+import com.masjid.crm.model.MarriageMemberType;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -18,7 +19,11 @@ public class MarriageDetailFactory {
                 .dateOfMarriage(request.getDateOfMarriage())
                 .certificateNumber(request.getCertificateNumber())
                 .details(request.getDetails())
+                .marriageMemberName(request.getMarriageMemberName())
+                .marriageMemberPhone(request.getMarriageMemberPhone())
+                .marriageMemberType(request.getMarriageMemberType())
                 .memberDetail(memberDetail)
+                .notes(request.getNotes())
                 .build();
         return marriageDetail;
     }
@@ -32,13 +37,20 @@ public class MarriageDetailFactory {
     }
 
     private static MarriageDetailResponse toResponse(MarriageDetail marriageDetail) {
+
+        MemberDetail memberDetail = marriageDetail.getMemberDetail();
         return MarriageDetailResponse.builder()
                 .id(marriageDetail.getId())
                 .dateOfMarriage(marriageDetail.getDateOfMarriage())
                 .certificateNumber(marriageDetail.getCertificateNumber())
                 .details(marriageDetail.getDetails())
-                .memberDetailId(marriageDetail.getMemberDetail().getId())
-                .memberName(marriageDetail.getMemberDetail().getName())
+                .memberDetailId(memberDetail.getId())
+                .memberName(memberDetail.getName())
+                .marriageMemberName(marriageDetail.getMarriageMemberName())
+                .marriageMemberPhone(marriageDetail.getMarriageMemberPhone())
+                .marriageMemberType(marriageDetail.getMarriageMemberType())
+                .familyDetailId(memberDetail.getFamilyDetail().getId())
+                .notes(marriageDetail.getNotes())
                 .build();
     }
 
