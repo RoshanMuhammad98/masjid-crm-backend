@@ -18,4 +18,8 @@ public class DeathDetailResponse {
     private String deathCertificateNumber;
 
     private LocalDate dateOfDeath;
+
+    private Long memberId;
+
+    private String memberName;
 }

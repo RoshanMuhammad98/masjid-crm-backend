@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class DeathDetailRequest {
+public class SaveDeathDetailRequest {
 
     private Long id;
 
@@ -17,18 +17,5 @@ public class DeathDetailRequest {
 
     private String deathCertificateNumber;
 
-    private Integer pageNo;
-
-    private Integer pageSize;
-
     private Long memberDetailId;
-
-    private String memberName;
-
-    private String dateFilter;
-
-    private LocalDate fromDate;
-
-    private LocalDate toDate;
 }
-

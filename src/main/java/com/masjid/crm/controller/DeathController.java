@@ -1,8 +1,8 @@
 package com.masjid.crm.controller;
 
 import com.masjid.crm.dto.request.DeathDetailRequest;
+import com.masjid.crm.dto.request.SaveDeathDetailRequest;
 import com.masjid.crm.dto.response.DeathDetailListResponse;
-import com.masjid.crm.dto.response.DeathDetailResponse;
 import com.masjid.crm.service.DeathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,19 +27,19 @@ public class DeathController {
     /**
      * Save death details.
      *
-     * @Request DeathDetailRequest
+     * @Request SaveDeathDetailRequest
      * @author Roshan Muhammad
      * @since 07-07-2024
      */
     @PostMapping("/save")
-    public void saveDeathDetails(@RequestBody @Valid DeathDetailRequest request) {
+    public void saveDeathDetails(@RequestBody @Valid SaveDeathDetailRequest request) {
         deathService.saveDeathDetails(request);
     }
 
     /**
      * filtered death details.
      *
-     * @Request DeathDetailRequest
+     * @Request SaveDeathDetailRequest
      * @author Roshan Muhammad
      * @since 07-07-2024
      */
