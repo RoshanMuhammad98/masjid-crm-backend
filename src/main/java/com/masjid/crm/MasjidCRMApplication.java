@@ -1,4 +1,4 @@
-package main.java.com.masjid.crm;
+package com.masjid.crm;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.boot.SpringApplication;
