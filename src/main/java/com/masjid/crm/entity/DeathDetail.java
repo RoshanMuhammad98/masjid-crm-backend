@@ -36,7 +36,7 @@ public class DeathDetail extends Audit implements Serializable {
     @OneToOne
     private MemberDetail memberDetail;
 
-    @OneToOne
+    @Column
     private String notes;
 
 }

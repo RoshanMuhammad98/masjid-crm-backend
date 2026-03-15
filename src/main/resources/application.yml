@@ -2,24 +2,36 @@ server:
   port: 8313
   servlet.context-path: /mosque-way
 
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://13.234.162.226:5432/mosque_way
+#    driver-class-name: org.postgresql.Driver
+#    username: postgres
+#    password: rrrrr
+#    hikari:
+#      maximum-pool-size: 10
 spring:
   datasource:
-    url: jdbc:postgresql://13.234.162.226:5432/mosque_way
+    url: jdbc:postgresql://aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres?sslmode=require
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: mosqueway
+    username: postgres.dsbmlwphwfrugmfzfadi
+    password: masjid3871postgress
     hikari:
-      maximum-pool-size: 10
+      maximum-pool-size: 5
 
   jpa:
-#    hibernate:
-#      ddl-auto: create
-#    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-#        format_sql: true
-    hibernate.ddl-auto: update
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#  jpa:
+##    hibernate:
+##      ddl-auto: create
+##    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+##        format_sql: true
+#    hibernate.ddl-auto: update
 
 jwt:
   expiration: 43200
