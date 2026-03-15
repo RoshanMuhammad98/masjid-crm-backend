@@ -1,5 +1,5 @@
 server:
-  port: 8313
+  port: ${PORT:8080}
   servlet.context-path: /mosque-way
 
 #spring:
