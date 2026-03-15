@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://db.dsbmlwphwfrugmfzfadi.supabase.co:5432/postgres?sslmode=require&prepareThreshold=0
     driver-class-name: org.postgresql.Driver
-    username: postgres.dsbmlwphwfrugmfzfadi
+    username: postgres
     password: masjid3871postgress
     hikari:
       maximum-pool-size: 5
@@ -23,3 +23,7 @@ spring:
 logging:
   level:
     com.zaxxer.hikari: DEBUG
+
+jwt:
+  expiration: 43200
+  secret: 23234234
