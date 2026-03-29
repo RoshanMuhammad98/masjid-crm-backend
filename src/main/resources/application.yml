@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://db.dsbmlwphwfrugmfzfadi.supabase.co:5432/postgres?sslmode=require&prepareThreshold=0
+    url: jdbc:postgresql://test.mykarehealth.com:5432/masjid_crm_db
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: masjid3871postgress
+    password: doctune
     hikari:
       maximum-pool-size: 5
       connection-timeout: 30000
