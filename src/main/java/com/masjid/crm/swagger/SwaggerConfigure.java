@@ -2,46 +2,59 @@ package com.masjid.crm.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import springfox.documentation.builders.ParameterBuilder;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfigure implements WebMvcConfigurer {
-
-    private static final Set<String> DEFAULT_PRODUCES_CONSUMES = new HashSet<String>(Arrays.asList("application/json"));
-    private static final ApiInfo DEFAULT_API_INFO = ApiInfo.DEFAULT ;
+public class SwaggerConfigure {
 
     @Bean
     public Docket api() {
-        ParameterBuilder parameterBuilder = new ParameterBuilder();
-        parameterBuilder.name("Authorization")
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
-                .description("JWT token")
-                .required(true)
-                .build();
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(parameterBuilder.build());
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(DEFAULT_API_INFO)
-                .produces(DEFAULT_PRODUCES_CONSUMES)
-                .consumes(DEFAULT_PRODUCES_CONSUMES)
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .securityContexts(Collections.singletonList(securityContext()))
+                .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
-                .build()
-                // Setting globalOperationParameters ensures that authentication header is applied to all APIs
-                .globalOperationParameters(parameters);
+                .apis(RequestHandlerSelectors.basePackage("com.masjid.crm"))
+                .paths(PathSelectors.any())
+                .build();
     }
 
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Masjid CRM API")
+                .description("Masjid CRM REST API Documentation")
+                .version("1.0.0")
+                .build();
+    }
+
+    private ApiKey apiKey() {
+        return new ApiKey("JWT", "Authorization", "header");
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .build();
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope =
+                new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[]{authorizationScope};
+        return Collections.singletonList(
+                new SecurityReference("JWT", authorizationScopes)
+        );
+    }
 }

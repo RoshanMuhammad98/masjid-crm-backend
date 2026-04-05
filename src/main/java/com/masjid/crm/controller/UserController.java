@@ -2,6 +2,7 @@ package com.masjid.crm.controller;
 
 import com.masjid.crm.dto.request.UserRequest;
 import com.masjid.crm.dto.response.LoginResponse;
+import com.masjid.crm.entity.User;
 import com.masjid.crm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -53,6 +54,20 @@ public class UserController {
         }
     }
 
-
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody UserRequest userRequest) {
+        try {
+            User user = userService.register(userRequest);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        } catch (IllegalStateException e) {
+            // Duplicate user
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

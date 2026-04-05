@@ -1,3 +1,7 @@
+server:
+  port: 8080
+  servlet.context-path: /mosque-way
+
 spring:
   datasource:
     url: jdbc:postgresql://test.mykarehealth.com:5432/masjid_crm_db
@@ -20,10 +24,13 @@ spring:
           lob:
             non_contextual_creation: true
 
-logging:
+
+  mvc.pathmatch:
+      matching-strategy=ant_path_matcher: logging
   level:
     com.zaxxer.hikari: DEBUG
 
 jwt:
   expiration: 43200
   secret: 23234234
+

@@ -114,15 +114,15 @@ public class UserService implements UserDetailsService {
         loginResponse.setName(user.getName());
         loginResponse.setId(user.getId());
         loginResponse.setCode(user.getCode());
-        loginResponse.setRole(user.getRole().getName());
-        loginResponse.setKareflowUrl(user.getRole().getKareflowUrl());
+//        loginResponse.setRole(user.getRole().getName());
+//        loginResponse.setKareflowUrl(user.getRole().getKareflowUrl());
 
-        Set<Permission> permissionSet = user.getRole().getPermissions();
-        List<String> permissions = new ArrayList<>();
-        for (Permission permission : permissionSet) {
-            permissions.add(permission.getPermission());
-        }
-        loginResponse.setPermissions(permissions);
+//        Set<Permission> permissionSet = user.getRole().getPermissions();
+//        List<String> permissions = new ArrayList<>();
+//        for (Permission permission : permissionSet) {
+//            permissions.add(permission.getPermission());
+//        }
+//        loginResponse.setPermissions(permissions);
 
         HttpCookie cookie = new HttpCookie("SESSIONID", loginResponse.getToken());
         cookie.setPath("/");
@@ -131,5 +131,34 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public User register(UserRequest userRequest) {
 
+        // Check for duplicate username (email or phone)
+        String username = userRequest.getEmail() != null
+                ? userRequest.getEmail()
+                : userRequest.getPhoneNumber();
+
+        if (username == null) {
+            throw new IllegalArgumentException("Email or phone number is required");
+        }
+
+        Optional<User> existing = userRepository.findByUsername(username);
+        if (existing.isPresent()) {
+            throw new IllegalStateException("User already exists with this username");
+        }
+
+        User user = new User();
+        user.setName(userRequest.getName());
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setActive(true);
+
+        // Assign role — default to a base role if roleId not provided
+        if (userRequest.getRoleId() != null) {
+            roleRepository.findById(userRequest.getRoleId())
+                    .ifPresent(user::setRole);
+        }
+
+        return userRepository.save(user);
+    }
 }
