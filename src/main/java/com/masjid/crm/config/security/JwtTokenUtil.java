@@ -1,7 +1,7 @@
 package com.masjid.crm.config.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +36,11 @@ public class JwtTokenUtil {
 	}
 
 	private Claims getAllClaimsFromToken(String token) {
-		return Jwts.parser().setSigningKey("mykare-admin").parseClaimsJws(token).getBody();
+		// ✅ FIXED: use secret from application.yml, NOT hardcoded "mykare-admin"
+		return Jwts.parser()
+				.setSigningKey(secret)
+				.parseClaimsJws(token)
+				.getBody();
 	}
 
 	public String generateToken(String username) {
@@ -45,21 +49,35 @@ public class JwtTokenUtil {
 	}
 
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
-
 		Date now = new Date();
-		Date expirationDate = new Date(now.getTime() + expiration * 1000); // Convert seconds to milliseconds
+		Date expirationDate = new Date(now.getTime() + expiration * 1000);
 
-		JwtBuilder jwtBuilder = Jwts.builder();
-		jwtBuilder.setClaims(claims);
-		jwtBuilder.setSubject(subject);
-		jwtBuilder.setIssuedAt(new Date(System.currentTimeMillis()));
-		jwtBuilder.setExpiration(expirationDate);
-		jwtBuilder.signWith(SignatureAlgorithm.HS512, secret);
-		return jwtBuilder.compact();
+		return Jwts.builder()
+				.setClaims(claims)
+				.setSubject(subject)
+				.setIssuedAt(now)
+				.setExpiration(expirationDate)
+				.signWith(SignatureAlgorithm.HS512, secret) // ✅ same secret
+				.compact();
 	}
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
-		final String username = getUsernameFromToken(token);
-		return username.equals(userDetails.getUsername());
+		try {
+			final String username = getUsernameFromToken(token);
+			// ✅ FIXED: also check token is not expired
+			return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+		} catch (ExpiredJwtException e) {
+			System.out.println("❌ Token expired: " + e.getMessage());
+			return false;
+		} catch (Exception e) {
+			System.out.println("❌ Token invalid: " + e.getMessage());
+			return false;
+		}
+	}
+
+	// ✅ NEW: was completely missing before
+	private Boolean isTokenExpired(String token) {
+		final Date expiry = getExpirationDateFromToken(token);
+		return expiry.before(new Date());
 	}
 }

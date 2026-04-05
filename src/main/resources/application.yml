@@ -1,6 +1,7 @@
 server:
   port: 8080
-  servlet.context-path: /mosque-way
+  servlet:
+    context-path: /mosque-way
 
 spring:
   datasource:
@@ -24,13 +25,14 @@ spring:
           lob:
             non_contextual_creation: true
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
-  mvc.pathmatch:
-      matching-strategy=ant_path_matcher: logging
+logging:
   level:
     com.zaxxer.hikari: DEBUG
 
 jwt:
   expiration: 43200
   secret: 23234234
-
