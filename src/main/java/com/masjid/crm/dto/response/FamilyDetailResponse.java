@@ -1,5 +1,6 @@
 package com.masjid.crm.dto.response;
 
+import com.masjid.crm.model.FamilyStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,4 +19,8 @@ public class FamilyDetailResponse {
     private Long totalMembersCount;
 
     private Double householdIncome;
+
+    private String houseNumber;
+
+    private FamilyStatus familyStatus;
 }

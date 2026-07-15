@@ -1,9 +1,8 @@
 package com.masjid.crm.controller;
 
-import com.masjid.crm.dto.request.FamilyDetailRequest;
 import com.masjid.crm.dto.request.MarriageDetailRequest;
-import com.masjid.crm.dto.response.FamilyDetailResponse;
 import com.masjid.crm.dto.response.MarriageDetailListResponse;
+import com.masjid.crm.entity.MarriageDetail;
 import com.masjid.crm.service.MarriageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +32,8 @@ public class MarriageController {
      * @since 07-07-2024
      */
     @PostMapping("/save")
-    public void saveMarriageDetails(@RequestBody @Valid MarriageDetailRequest request) {
-        marriageService.saveMarriageDetails(request);
+    public MarriageDetail saveMarriageDetails(@RequestBody @Valid MarriageDetailRequest request) {
+        return marriageService.saveMarriageDetails(request);
     }
 
     /**

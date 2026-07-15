@@ -23,6 +23,8 @@ public class DeathDetailRequest {
 
     private Long memberDetailId;
 
+    private Long familyDetailId;
+
     private String memberName;
 
     private String dateFilter;

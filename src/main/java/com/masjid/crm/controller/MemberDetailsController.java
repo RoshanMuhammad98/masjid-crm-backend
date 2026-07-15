@@ -1,8 +1,8 @@
 package com.masjid.crm.controller;
 
 import com.masjid.crm.dto.request.MemberDetailRequest;
-import com.masjid.crm.dto.response.FamilyDetailResponse;
 import com.masjid.crm.dto.response.MemberDetailListResponse;
+import com.masjid.crm.entity.MemberDetail;
 import com.masjid.crm.service.MemberDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +32,8 @@ public class MemberDetailsController {
      * @since 07-07-2024
      */
     @PostMapping("/save")
-    public void saveMemberDetails(@RequestBody @Valid MemberDetailRequest request) {
-        memberDetailsService.saveMemberDetails(request);
+    public MemberDetail saveMemberDetails(@RequestBody @Valid MemberDetailRequest request) {
+        return memberDetailsService.saveMemberDetails(request);
     }
 
     /**

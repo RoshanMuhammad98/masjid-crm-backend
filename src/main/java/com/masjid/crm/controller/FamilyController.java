@@ -3,7 +3,8 @@ package com.masjid.crm.controller;
 import com.masjid.crm.dto.request.FamilyDetailRequest;
 import com.masjid.crm.dto.request.SavedFamilyDetailRequest;
 import com.masjid.crm.dto.response.FamilyDetailListResponse;
-import com.masjid.crm.dto.response.FamilyDetailResponse;
+import com.masjid.crm.dto.response.FamilyOverviewResponse;
+import com.masjid.crm.entity.FamilyDetail;
 import com.masjid.crm.service.FamilyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +34,8 @@ public class FamilyController {
      * @since 07-07-2024
      */
     @PostMapping("/save")
-    public void saveFamilyDetails(@RequestBody @Valid SavedFamilyDetailRequest request) {
-        familyService.saveFamilyDetails(request);
+    public FamilyDetail saveFamilyDetails(@RequestBody @Valid SavedFamilyDetailRequest request) {
+        return familyService.saveFamilyDetails(request);
     }
 
     /**
@@ -47,6 +48,11 @@ public class FamilyController {
     @PostMapping("/filtered")
     public FamilyDetailListResponse filteredFamilyDetails(@RequestBody @Valid FamilyDetailRequest request) {
         return familyService.filteredFamilyDetails(request);
+    }
+
+    @GetMapping("/{id}/overview")
+    public FamilyOverviewResponse getFamilyOverview(@PathVariable Long id) {
+        return familyService.getFamilyOverview(id);
     }
 
 }

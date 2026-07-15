@@ -3,45 +3,41 @@ package com.masjid.crm.specification;
 import com.masjid.crm.dto.request.MembershipDetailRequest;
 import com.masjid.crm.entity.MembershipDetail;
 import com.masjid.crm.model.MemberShipType;
+import com.masjid.crm.model.PaymentMethod;
 import com.masjid.crm.model.PaymentStatus;
 import org.springframework.data.jpa.domain.Specification;
 
 public class MembershipDetailSpecification {
 
     public static Specification<MembershipDetail> filterMemberships(MembershipDetailRequest request) {
-
-        Specification<MembershipDetail> spec1 = byFamilyDetailId(request.getFamilyDetailId());
-        Specification<MembershipDetail> spec2 = byMemberShipType(request.getMemberShipType());
-        Specification<MembershipDetail> spec3 = byPaymentStatus(request.getPaymentStatus());
-
-        return Specification.where(spec1).and(spec2).and(spec3);
+        return Specification
+                .where(byFamilyDetailId(request.getFamilyDetailId()))
+                .and(byMemberShipType(request.getMemberShipType()))
+                .and(byPaymentStatus(request.getPaymentStatus()))
+                .and(byPaymentMethod(request.getPaymentMethod()));
     }
 
     private static Specification<MembershipDetail> byFamilyDetailId(Long familyDetailId) {
-        return (root, query, builder) -> {
-            if (familyDetailId != null) {
-                return builder.equal(root.get("familyDetail").get("id"), familyDetailId);
-            }
-            return builder.conjunction();
-        };
+        return (root, query, builder) -> familyDetailId == null
+                ? builder.conjunction()
+                : builder.equal(root.get("familyDetail").get("id"), familyDetailId);
     }
 
     private static Specification<MembershipDetail> byMemberShipType(MemberShipType memberShipType) {
-        return (root, query, builder) -> {
-            if (memberShipType != null) {
-                return builder.equal(root.get("memberShipType"), memberShipType);
-            }
-            return builder.conjunction();
-        };
+        return (root, query, builder) -> memberShipType == null
+                ? builder.conjunction()
+                : builder.equal(root.get("memberShipType"), memberShipType);
     }
 
     private static Specification<MembershipDetail> byPaymentStatus(PaymentStatus paymentStatus) {
-        return (root, query, builder) -> {
-            if (paymentStatus != null) {
-                return builder.equal(root.get("paymentStatus"), paymentStatus);
-            }
-            return builder.conjunction();
-        };
+        return (root, query, builder) -> paymentStatus == null
+                ? builder.conjunction()
+                : builder.equal(root.get("paymentStatus"), paymentStatus);
     }
 
+    private static Specification<MembershipDetail> byPaymentMethod(PaymentMethod paymentMethod) {
+        return (root, query, builder) -> paymentMethod == null
+                ? builder.conjunction()
+                : builder.equal(root.get("paymentMethod"), paymentMethod);
+    }
 }

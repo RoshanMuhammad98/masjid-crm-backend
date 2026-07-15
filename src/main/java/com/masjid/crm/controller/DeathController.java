@@ -3,6 +3,7 @@ package com.masjid.crm.controller;
 import com.masjid.crm.dto.request.DeathDetailRequest;
 import com.masjid.crm.dto.request.SaveDeathDetailRequest;
 import com.masjid.crm.dto.response.DeathDetailListResponse;
+import com.masjid.crm.entity.DeathDetail;
 import com.masjid.crm.service.DeathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,8 @@ public class DeathController {
      * @since 07-07-2024
      */
     @PostMapping("/save")
-    public void saveDeathDetails(@RequestBody @Valid SaveDeathDetailRequest request) {
-        deathService.saveDeathDetails(request);
+    public DeathDetail saveDeathDetails(@RequestBody @Valid SaveDeathDetailRequest request) {
+        return deathService.saveDeathDetails(request);
     }
 
     /**

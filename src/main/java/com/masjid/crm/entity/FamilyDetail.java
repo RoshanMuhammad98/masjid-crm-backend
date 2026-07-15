@@ -1,5 +1,6 @@
 package com.masjid.crm.entity;
 
+import com.masjid.crm.model.FamilyStatus;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -34,5 +35,12 @@ public class FamilyDetail extends Audit implements Serializable {
 
     @Column
     private Double householdIncome;
+
+    @Column
+    private String houseNumber;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private FamilyStatus familyStatus;
 
 }

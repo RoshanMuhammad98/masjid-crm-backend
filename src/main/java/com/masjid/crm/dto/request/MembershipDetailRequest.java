@@ -2,6 +2,7 @@ package com.masjid.crm.dto.request;
 
 import com.masjid.crm.model.MemberShipType;
 import com.masjid.crm.model.MembershipMemberType;
+import com.masjid.crm.model.PaymentMethod;
 import com.masjid.crm.model.PaymentStatus;
 import lombok.Data;
 
@@ -31,5 +32,7 @@ public class MembershipDetailRequest {
     private String otherPersonName;
 
     private String otherPersonPhoneNumber;
+
+    private PaymentMethod paymentMethod;
 
 }

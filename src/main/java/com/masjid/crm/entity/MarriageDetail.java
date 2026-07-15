@@ -41,10 +41,50 @@ public class MarriageDetail extends Audit implements Serializable {
     @Column
     private String marriageMemberPhone;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "member_detail_id")
     private MemberDetail memberDetail;
 
     @Column
     private String notes;
+
+    @Column
+    private String placeOfNikkah;
+
+    @Column
+    private String groomName;
+
+    @Column
+    private String groomPhone;
+
+    @Column
+    private String groomAddress;
+
+    @Column
+    private String groomJob;
+
+    @Column
+    private LocalDate groomDateOfBirth;
+
+    @Column
+    private String groomBirthPlace;
+
+    @Column
+    private String brideName;
+
+    @Column
+    private String bridePhone;
+
+    @Column
+    private String brideAddress;
+
+    @Column
+    private String brideJob;
+
+    @Column
+    private LocalDate brideDateOfBirth;
+
+    @Column
+    private String brideBirthPlace;
 
 }

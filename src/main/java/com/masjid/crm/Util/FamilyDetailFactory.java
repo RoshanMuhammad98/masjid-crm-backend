@@ -13,13 +13,16 @@ import java.util.stream.Collectors;
 public class FamilyDetailFactory {
 
     public static FamilyDetail buildFamilyDetail(SavedFamilyDetailRequest request, FamilyDetail familyDetail) {
-        familyDetail = FamilyDetail.builder()
-                .householdName(request.getHouseholdName())
-                .phoneNumber(request.getPhoneNumber())
-                .address(request.getAddress())
-                .totalMembersCount(request.getTotalMembersCount())
-                .householdIncome(request.getHouseholdIncome())
-                .build();
+        if (familyDetail == null) {
+            familyDetail = new FamilyDetail();
+        }
+        familyDetail.setHouseholdName(request.getHouseholdName());
+        familyDetail.setPhoneNumber(request.getPhoneNumber());
+        familyDetail.setAddress(request.getAddress());
+        familyDetail.setTotalMembersCount(request.getTotalMembersCount());
+        familyDetail.setHouseholdIncome(request.getHouseholdIncome());
+        familyDetail.setHouseNumber(request.getHouseNumber());
+        familyDetail.setFamilyStatus(request.getFamilyStatus());
         return familyDetail;
     }
 
@@ -30,7 +33,7 @@ public class FamilyDetailFactory {
                 .build();
     }
 
-    private static FamilyDetailResponse getFamilyDetailListResponse(FamilyDetail familyDetail) {
+    static FamilyDetailResponse getFamilyDetailListResponse(FamilyDetail familyDetail) {
 
         return FamilyDetailResponse.builder()
                 .familyId(familyDetail.getId())
@@ -39,7 +42,13 @@ public class FamilyDetailFactory {
                 .phoneNumber(familyDetail.getPhoneNumber())
                 .totalMembersCount(familyDetail.getTotalMembersCount())
                 .householdIncome(familyDetail.getHouseholdIncome())
+                .houseNumber(familyDetail.getHouseNumber())
+                .familyStatus(familyDetail.getFamilyStatus())
                 .build();
+    }
+
+    public static FamilyDetailResponse toResponse(FamilyDetail familyDetail) {
+        return getFamilyDetailListResponse(familyDetail);
     }
 
 }

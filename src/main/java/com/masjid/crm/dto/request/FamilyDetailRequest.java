@@ -1,5 +1,6 @@
 package com.masjid.crm.dto.request;
 
+import com.masjid.crm.model.FamilyStatus;
 import lombok.Data;
 
 
@@ -12,11 +13,15 @@ public class FamilyDetailRequest {
 
     private String phoneNumber;
 
-    private String address;
-
     private Long totalMembersCount;
 
     private Double householdIncome;
+
+    private String houseNumber;
+
+    private FamilyStatus familyStatus;
+
+    private String address;
 
     private Integer pageNo;
 

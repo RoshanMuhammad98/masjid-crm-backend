@@ -2,6 +2,7 @@ package com.masjid.crm.entity;
 
 import com.masjid.crm.model.MemberShipType;
 import com.masjid.crm.model.MembershipMemberType;
+import com.masjid.crm.model.PaymentMethod;
 import com.masjid.crm.model.PaymentStatus;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,10 +24,12 @@ public class MembershipDetail  extends Audit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "family_detail_id")
     private FamilyDetail familyDetail;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private MemberShipType memberShipType;
 
     @Column
@@ -48,5 +51,9 @@ public class MembershipDetail  extends Audit implements Serializable {
 
     @Column
     private String otherPersonPhoneNumber;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
 }

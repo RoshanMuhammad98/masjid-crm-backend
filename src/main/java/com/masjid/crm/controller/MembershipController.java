@@ -1,8 +1,9 @@
 package com.masjid.crm.controller;
 
 import com.masjid.crm.dto.request.MembershipDetailRequest;
-import com.masjid.crm.dto.response.FamilyDetailResponse;
 import com.masjid.crm.dto.response.MembershipDetailListResponse;
+import com.masjid.crm.entity.MembershipDetail;
+import com.masjid.crm.model.PaymentStatus;
 import com.masjid.crm.service.MembershipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,8 @@ public class MembershipController {
      * @since 07-07-2024
      */
     @PostMapping("/save")
-    public void saveMembershipDetails(@RequestBody @Valid MembershipDetailRequest request) {
-        membershipService.saveMembershipDetails(request);
+    public MembershipDetail saveMembershipDetails(@RequestBody @Valid MembershipDetailRequest request) {
+        return membershipService.saveMembershipDetails(request);
     }
 
     /**
@@ -46,6 +47,12 @@ public class MembershipController {
     @PostMapping("/filtered")
     public MembershipDetailListResponse filteredMembershipDetails(@RequestBody @Valid MembershipDetailRequest request) {
         return membershipService.filteredMembershipDetails(request);
+    }
+
+    @PatchMapping("/{id}/payment-status")
+    public MembershipDetail updatePaymentStatus(@PathVariable Long id,
+                                                @RequestParam PaymentStatus status) {
+        return membershipService.updatePaymentStatus(id, status);
     }
 
 }

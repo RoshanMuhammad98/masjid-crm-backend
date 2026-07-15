@@ -14,12 +14,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class DeathService {
@@ -30,13 +29,25 @@ public class DeathService {
     @Autowired
     private MemberDetailsService memberDetailsService;
 
-    public ResponseEntity<DeathDetail> saveDeathDetails(SaveDeathDetailRequest request) {
-        DeathDetail saveDeathDetail = saveDeathDetail(request);
-        return ResponseEntity.ok(saveDeathDetail);
+    public DeathDetail saveDeathDetails(SaveDeathDetailRequest request) {
+        return saveDeathDetail(request);
     }
 
     private DeathDetail saveDeathDetail(SaveDeathDetailRequest request) {
-        DeathDetail deathDetail = null;
+
+        if (request.getMemberDetailId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "memberDetailId is required");
+        }
+
+        Optional<MemberDetail> memberDetailOpt = memberDetailsService.findById(request.getMemberDetailId());
+
+        if (!memberDetailOpt.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Member not found: " + request.getMemberDetailId());
+        }
+
+        DeathDetail deathDetail;
 
         if (request.getId() != null) {
             deathDetail = deathDetailRepository.findById(request.getId())
@@ -45,12 +56,21 @@ public class DeathService {
             deathDetail = new DeathDetail();
         }
 
-        return deathDetailRepository.save(DeathDetailFactory.buildDeathDetail(request, deathDetail));
+        // ✅ Set values manually (instead of builder)
+        deathDetail.setPlaceOfDeath(request.getPlaceOfDeath());
+        deathDetail.setCauseOfDeath(request.getCauseOfDeath());
+        deathDetail.setDeathCertificateNumber(request.getDeathCertificateNumber());
+        deathDetail.setDateOfDeath(request.getDateOfDeath());
+        deathDetail.setNotes(request.getNotes());
+        deathDetail.setMemberDetail(memberDetailOpt.get());
+
+        return deathDetailRepository.save(deathDetail);
     }
 
     public DeathDetailListResponse filteredDeathDetails(DeathDetailRequest request) {
-
-        Pageable pageable = PageRequest.of(request.getPageNo(), request.getPageSize(), Sort.by("id").descending());
+        int pageNo = request.getPageNo() == null ? 0 : request.getPageNo();
+        int pageSize = request.getPageSize() == null || request.getPageSize() <= 0 ? 20 : request.getPageSize();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("id").descending());
         Specification<DeathDetail> spec = DeathDetailSpecification.filterDeaths(request);
         Page<DeathDetail> deathDetails = deathDetailRepository.findAll(spec, pageable);
 

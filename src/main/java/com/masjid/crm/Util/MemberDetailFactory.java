@@ -13,19 +13,46 @@ import java.util.stream.Collectors;
 public class MemberDetailFactory {
 
     public static MemberDetail buildMemberDetail(MemberDetailRequest request, MemberDetail memberDetail, FamilyDetail familyDetail) {
-        memberDetail = MemberDetail.builder()
-                .name(request.getName())
-                .martialStatus(request.getMartialStatus())
-                .gender(request.getGender())
-                .age(request.getAge())
-                .educationQualification(request.getEducationQualification())
-                .occupation(request.getOccupation())
-                .phoneNumber(request.getPhoneNumber())
-                .alternativeNumber(request.getAlternativeNumber())
-                .bloodGroup(request.getBloodGroup())
-                .familyDetail(familyDetail)
-                .build();
+        if (memberDetail == null) {
+            memberDetail = new MemberDetail();
+        }
+        memberDetail.setName(request.getName());
+        memberDetail.setMartialStatus(request.getMartialStatus());
+        memberDetail.setGender(request.getGender());
+        memberDetail.setAge(request.getAge());
+        memberDetail.setEducationQualification(request.getEducationQualification());
+        memberDetail.setOccupation(request.getOccupation());
+        memberDetail.setPhoneNumber(request.getPhoneNumber());
+        memberDetail.setAlternativeNumber(request.getAlternativeNumber());
+        memberDetail.setBloodGroup(request.getBloodGroup());
+        memberDetail.setFamilyDetail(familyDetail);
+        memberDetail.setMedicalCondition(request.getMedicalCondition());
+        memberDetail.setHasMedicalIssue(request.getHasMedicalIssue());
+        memberDetail.setHasDisability(request.getHasDisability());
+        memberDetail.setDisabilityNotes(request.getDisabilityNotes());
+        memberDetail.setIsStudent(request.getIsStudent());
+        memberDetail.setDateOfDivorce(request.getDateOfDivorce());
+        memberDetail.setDivorcedFromName(request.getDivorcedFromName());
+        memberDetail.setDivorceNotes(request.getDivorceNotes());
+        if (request.getIsHead() != null) {
+            memberDetail.setIsHead(request.getIsHead());
+        }
+
+        applyOccupationStudentRule(memberDetail);
+
         return memberDetail;
+    }
+
+    private static void applyOccupationStudentRule(MemberDetail member) {
+        String occ = member.getOccupation();
+        boolean hasRealJob = occ != null && !occ.trim().isEmpty()
+                && !occ.trim().equalsIgnoreCase("student");
+
+        if (hasRealJob) {
+            member.setIsStudent(false);
+        } else if (occ != null && occ.trim().equalsIgnoreCase("student")) {
+            member.setIsStudent(true);
+        }
     }
 
     public static MemberDetailResponse buildMemberDetailResponse(MemberDetail memberDetail) {
@@ -40,8 +67,19 @@ public class MemberDetailFactory {
         response.setPhoneNumber(memberDetail.getPhoneNumber());
         response.setAlternativeNumber(memberDetail.getAlternativeNumber());
         response.setBloodGroup(memberDetail.getBloodGroup());
-        response.setFamilyId(memberDetail.getFamilyDetail().getId());
-        response.setHouseHoldName(memberDetail.getFamilyDetail().getHouseholdName());
+        if (memberDetail.getFamilyDetail() != null) {
+            response.setFamilyId(memberDetail.getFamilyDetail().getId());
+            response.setHouseholdName(memberDetail.getFamilyDetail().getHouseholdName());
+        }
+        response.setMedicalCondition(memberDetail.getMedicalCondition());
+        response.setHasMedicalIssue(memberDetail.getHasMedicalIssue());
+        response.setHasDisability(memberDetail.getHasDisability());
+        response.setDisabilityNotes(memberDetail.getDisabilityNotes());
+        response.setIsStudent(memberDetail.getIsStudent());
+        response.setDateOfDivorce(memberDetail.getDateOfDivorce());
+        response.setDivorcedFromName(memberDetail.getDivorcedFromName());
+        response.setDivorceNotes(memberDetail.getDivorceNotes());
+        response.setIsHead(memberDetail.getIsHead());
         return response;
     }
 

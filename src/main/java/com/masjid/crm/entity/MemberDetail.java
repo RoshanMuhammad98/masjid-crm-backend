@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -51,7 +52,35 @@ public class MemberDetail extends Audit implements Serializable {
     @Column
     private String bloodGroup;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "family_detail_id")
     private FamilyDetail familyDetail;
+
+    @Column
+    private String medicalCondition;
+
+    @Column
+    private Boolean hasMedicalIssue;
+
+    @Column
+    private Boolean hasDisability;
+
+    @Column
+    private String disabilityNotes;
+
+    @Column
+    private Boolean isStudent;
+
+    @Column
+    private LocalDate dateOfDivorce;
+
+    @Column
+    private String divorcedFromName;
+
+    @Column
+    private String divorceNotes;
+
+    @Column
+    private Boolean isHead;
 
 }

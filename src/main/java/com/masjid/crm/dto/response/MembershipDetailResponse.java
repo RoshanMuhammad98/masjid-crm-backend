@@ -2,6 +2,7 @@ package com.masjid.crm.dto.response;
 
 import com.masjid.crm.model.MemberShipType;
 import com.masjid.crm.model.MembershipMemberType;
+import com.masjid.crm.model.PaymentMethod;
 import com.masjid.crm.model.PaymentStatus;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +28,8 @@ public class MembershipDetailResponse {
     private String otherPersonName;
 
     private String contactNumber;
+
+    private String householdName;
+
+    private PaymentMethod paymentMethod;
 }

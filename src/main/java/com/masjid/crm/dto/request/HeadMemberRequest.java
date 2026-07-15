@@ -1,4 +1,4 @@
-package com.masjid.crm.dto.response;
+package com.masjid.crm.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.masjid.crm.model.Gender;
@@ -8,15 +8,13 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class MemberDetailResponse {
-
-    private Long id;
+public class HeadMemberRequest {
 
     private String name;
 
-    private MartialStatus martialStatus;
-
     private Gender gender;
+
+    private MartialStatus martialStatus;
 
     private Long age;
 
@@ -29,10 +27,6 @@ public class MemberDetailResponse {
     private String alternativeNumber;
 
     private String bloodGroup;
-
-    private Long familyId;
-
-    private String householdName;
 
     private String medicalCondition;
 
@@ -50,6 +44,4 @@ public class MemberDetailResponse {
     private String divorcedFromName;
 
     private String divorceNotes;
-
-    private Boolean isHead;
 }

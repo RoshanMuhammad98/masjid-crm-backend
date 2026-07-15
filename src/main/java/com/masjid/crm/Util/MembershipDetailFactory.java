@@ -24,7 +24,7 @@ public class MembershipDetailFactory {
                 .membershipMemberType(request.getMembershipMemberType())
                 .build();
 
-        if (request.getMembershipMemberType().equals(MembershipMemberType.OTHER)) {
+        if (MembershipMemberType.OTHER.equals(request.getMembershipMemberType())) {
             membershipDetail.setOtherPersonName(request.getOtherPersonName());
             membershipDetail.setOtherPersonPhoneNumber(request.getOtherPersonPhoneNumber());
         }
@@ -44,20 +44,30 @@ public class MembershipDetailFactory {
         FamilyDetail familyDetail = membershipDetail.getFamilyDetail();
         MembershipDetailResponse membershipDetailResponse =  MembershipDetailResponse.builder()
                 .id(membershipDetail.getId())
-                .familyDetailId(familyDetail.getId())
+                .familyDetailId(familyDetail != null ? familyDetail.getId() : null)
+                .householdName(familyDetail != null ? familyDetail.getHouseholdName() : null)
+                .contactNumber(familyDetail != null ? familyDetail.getPhoneNumber() : null)
                 .memberShipType(membershipDetail.getMemberShipType())
                 .amount(membershipDetail.getAmount())
                 .paymentStatus(membershipDetail.getPaymentStatus())
+                .paymentMethod(membershipDetail.getPaymentMethod())
+                .membershipMemberType(membershipDetail.getMembershipMemberType())
+                .otherPersonName(membershipDetail.getOtherPersonName())
                 .notes(membershipDetail.getNotes())
                 .build();
 
-        if (membershipDetail.getMembershipMemberType().equals(MembershipMemberType.OTHER)) {
-            membershipDetailResponse.setOtherPersonName(membershipDetail.getOtherPersonName());
+        if (membershipDetail.getMembershipMemberType() == MembershipMemberType.OTHER
+                && membershipDetail.getOtherPersonPhoneNumber() != null) {
             membershipDetailResponse.setContactNumber(membershipDetail.getOtherPersonPhoneNumber());
         }
-        else {
-            membershipDetailResponse.setContactNumber(familyDetail.getPhoneNumber());
-        }
+
+//        if (membershipDetail.getMembershipMemberType().equals(MembershipMemberType.OTHER)) {
+//            membershipDetailResponse.setOtherPersonName(membershipDetail.getOtherPersonName());
+//            membershipDetailResponse.setContactNumber(membershipDetail.getOtherPersonPhoneNumber());
+//        }
+//        else {
+//            membershipDetailResponse.setContactNumber(familyDetail.getPhoneNumber());
+//        }
         return membershipDetailResponse;
     }
 

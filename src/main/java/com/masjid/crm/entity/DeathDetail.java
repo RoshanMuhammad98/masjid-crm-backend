@@ -34,6 +34,7 @@ public class DeathDetail extends Audit implements Serializable {
     private String deathCertificateNumber;
 
     @OneToOne
+    @JoinColumn(name = "member_detail_id")
     private MemberDetail memberDetail;
 
     @Column

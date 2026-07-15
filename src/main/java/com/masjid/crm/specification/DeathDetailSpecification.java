@@ -22,14 +22,29 @@ public class DeathDetailSpecification {
         Specification<DeathDetail> spec4 = byDateOfDeath(request.getDateFilter(), request.getFromDate(), request.getToDate());
         Specification<DeathDetail> spec5 = byMemberName(request.getMemberName());
 
-        return Specification.where(spec1).and(spec2).and(spec3).and(spec4).and(spec5);
+        Specification<DeathDetail> spec6 = byFamilyDetailId(request.getFamilyDetailId());
+        Specification<DeathDetail> spec7 = byMemberDetailId(request.getMemberDetailId());
+
+        return Specification.where(spec1).and(spec2).and(spec3).and(spec4).and(spec5).and(spec6).and(spec7);
+    }
+
+    private static Specification<DeathDetail> byFamilyDetailId(Long familyDetailId) {
+        return (root, query, builder) -> familyDetailId == null
+                ? builder.conjunction()
+                : builder.equal(root.get("memberDetail").get("familyDetail").get("id"), familyDetailId);
+    }
+
+    private static Specification<DeathDetail> byMemberDetailId(Long memberDetailId) {
+        return (root, query, builder) -> memberDetailId == null
+                ? builder.conjunction()
+                : builder.equal(root.get("memberDetail").get("id"), memberDetailId);
     }
 
     private static Specification<DeathDetail> byDateOfDeath(String dateFilter, LocalDate fromDate, LocalDate toDate) {
 
         String dateType = "createdDate";
         return (root, query, builder) -> {
-            if (dateFilter.equals("All")) {
+            if (dateFilter == null || dateFilter.equals("All")) {
                 return builder.conjunction();
             }
 
